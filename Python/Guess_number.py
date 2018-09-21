@@ -10,5 +10,4 @@ elif guess < n:
 else:
     print('The number is lower than your guess')
 
-
 print ('Done')
