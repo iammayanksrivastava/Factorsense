@@ -7,7 +7,9 @@ now = datetime.datetime.now()
 
 Name = raw_input("Enter Your Name: ")
 Age  = int(input("Enter Your Age: "))
+PrintTime = int(input("Enter the number of times you want to print: "))
 
 Year_when_100 = str((now.year - Age)+100)
 
-print(Name + ",you will turn 100 in " + Year_when_100)
+for Year_when_100 in range(PrintTime):
+    print(Name + ",you will turn 100 in " + Year_when_100)
