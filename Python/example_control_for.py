@@ -1,8 +1,8 @@
 list = []
 
-Firstword = raw_input("Enter a name: ")
-Secondword = raw_input("Enter a name: ")
-Thirdword = raw_input("Enter a name: ")
+Firstword = input("Enter a name: ")
+Secondword = input("Enter a name: ")
+Thirdword = input("Enter a name: ")
 
 list.append(Firstword)
 list.append(Secondword)
