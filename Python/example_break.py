@@ -2,7 +2,7 @@ string = 'Mayank'
 running = True
 
 while running:
-    guess = raw_input("Enter a Name: ")
+    guess = input("Enter a Name: ")
 
     if guess == 'quit':
         break
