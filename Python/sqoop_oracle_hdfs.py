@@ -5,12 +5,20 @@ import getpass
 import json
 
 
-#Tables: 
-table_name = ('TBPA_VALID_PARTNER_GROUPINGS', 'TBGG_SEG_VALUE_TRANSLATIONS')
+#Read the parameters from the json file 
+#with open(tables.json) as json_param_file:
+#    tables = json.load(json_param_file)
+#print data[tables]
 
+#Read the parameters from the json file 
+with open('tables.json') as json_param_file:
+    table_name = json.load(json_param_file)
+
+src_tables = table_name['source_tables']
+
+print(src_tables)
 
 # Function to run Hadoop command
-
 def run_unix_cmd(args_list):
     print('Running system command:{0}'.format('     '.join(args_list)))
     proc = subprocess.Popen(args_list, stdout=subprocess.PIPE, stderr=subprocess .PIPE, universal_newlines=True)
@@ -33,5 +41,5 @@ def sqoop_job(table_name):
   ##  for k, values in table_name.items:
     ##    sqoop_job(table_name)
 
-for i in table_name:
+for i in src_tables:
     sqoop_job(i)
