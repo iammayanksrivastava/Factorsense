@@ -1,0 +1,9 @@
+{
+    "oracle_connection":["jdbc:oracle:thin:@sl09.atradiusnet.com:1519/SYMF.atradiusnet.com"],
+    "username" : ["NLSMAY1"],
+    "source_schema" :["ORABUP0"],
+    "target_schema" :["d_native_zone"],
+    "alias_provider": ["jceks://hdfs/tmp/symf.password.jceks"],
+    "password_alias": ["symf.db.alias"]
+}
+

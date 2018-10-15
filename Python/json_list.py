@@ -5,9 +5,9 @@ import getpass
 import json
 
 
-#Read the parameters from the json file 
-with open('tables.json') as json_param_file:
-    table_name = json.load(json_param_file)
+#Read the Table names from the json file 
+with open('tables.json') as table_param_file:
+    table_name = json.load(table_param_file)
 
 src_tables = table_name['source_tables']
 

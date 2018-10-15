@@ -4,10 +4,28 @@ logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 import getpass
 import json
 
-#Read the parameters from the json file 
+#Read the source tables to be extracted from the json file
 with open('tables.json') as json_param_file:
     table_name = json.load(json_param_file)
 
+table_name = table_name['source_tables']
+
+#Read the environment varaibles from the json file
+with open('env_variable.json') as env_param_file:
+    env_param = json.load(env_param_file)
+
+oracle_url = env_param['oracle_connection']
+username = env_param['username']
+source_schema = env_param ['source_schema']
+target_schema  = env_param['target_schema']
+password_alias = env_param['password_alias']
+alias_provider = env_param['alias_provider']
+oracle_url = oracle_url[0]
+username = username[0]
+source_schema = source_schema [0]
+target_schema  = target_schema[0]
+password_alias = password_alias[0]
+alias_provider = alias_provider[0]
 # Function to run Hadoop command
 def run_unix_cmd(args_list):
     print('Running system command:{0}'.format('     '.join(args_list)))
@@ -18,19 +36,15 @@ def run_unix_cmd(args_list):
 
 # Create Sqoop Job
 def sqoop_job(table_name):
-    cmd = ['sqoop', 'import', '--connect', 'jdbc:oracle:thin:@sl09.atradiusnet.com:1519/SYMF.atradiusnet.com', '--username', 'NLSMAY1','--password', 'Winter18','--table', 'ORABUP0.'+table_name, '-m', '1', '--hive-import', '--hive-table', 'D_NATIVE_ZONE.'+table_name]
+    cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias,'--table', source_schema+'.'+table_name, '-m', '1', '--hive-import', '--hive-table', target_schema+'.'+table_name]
     print(cmd)
-    
+
     (ret, out, err) = run_unix_cmd(cmd)
     print(ret, out, err)
     if ret == 0:
         logging.info('Success.')
     else:
         logging.info('Error.')
-
-##if __name__ == '__main__':
-  ##  for k, values in table_name.items:
-    ##    sqoop_job(table_name)
 
 for i in table_name:
     sqoop_job(i)
