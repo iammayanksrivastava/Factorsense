@@ -35,6 +35,7 @@ alias_provider = env_param['alias_provider']
 target_dir = env_param['target_dir']
 oracle_url = oracle_url[0]
 username = username[0]
+
 source_schema = source_schema [0]
 target_schema  = target_schema[0]
 password_alias = password_alias[0]
