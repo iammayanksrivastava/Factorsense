@@ -26,6 +26,8 @@ source_schema = source_schema [0]
 target_schema  = target_schema[0]
 password_alias = password_alias[0]
 alias_provider = alias_provider[0]
+
+
 # Function to run Hadoop command
 def run_unix_cmd(args_list):
     print('Running system command:{0}'.format('     '.join(args_list)))
@@ -34,9 +36,9 @@ def run_unix_cmd(args_list):
     s_return = proc.returncode
     return s_return, s_output, s_err
 
-# Create Sqoop Job
+# Create Sqoop Job to load data from source into HDFS
 def sqoop_job(table_name):
-    cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias,'--table', source_schema+'.'+table_name, '-m', '1', '--hive-import', '--hive-table', target_schema+'.'+table_name]
+    cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias,'--table', source_schema+'.'+table_name, '-m', '1', '--hive-import', '--hive-table', target_schema+'.'+table_name] >> 'sqoop_log.out'
     print(cmd)
 
     (ret, out, err) = run_unix_cmd(cmd)
