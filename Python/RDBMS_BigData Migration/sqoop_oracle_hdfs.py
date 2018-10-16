@@ -50,17 +50,21 @@ def run_unix_cmd(args_list):
     s_return = proc.returncode
     return s_return, s_output, s_err
 
-# Create Sqoop Job to load data from source into HDFS
+# Create Sqoop Job to load data from source into HDFS Target Directory
 def sqoop_job(table_name):
-    cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias,'--table', source_schema+'.'+table_name, '-m', '1', '--as-textfile', '--target-dir', target_dir ]
+    cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias,'--table', source_schema+'.'+table_name, '-m', '1', '--as-textfile', '--target-dir',  target_dir+'/'+table_name]
+    cmd2 = ['hdfs', 'dfs', '-rm',  target_dir+'/'+table_name+'/'+'_SUCCESS' ]
     print(cmd)
-
+    print('Removing Success Flag from ' +target_dir+'/'+table_name)
+    print(cmd2)
     (ret, out, err) = run_unix_cmd(cmd)
+    (ret, out, err) = run_unix_cmd(cmd2)
     print(ret, out, err)
     if ret == 0:
         logging.info('Success.')
     else:
         logging.info('Error.')
 
+#Execute the SQOOP Job: 
 for i in table_name:
     sqoop_job(i)
