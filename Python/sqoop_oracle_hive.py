@@ -1,14 +1,10 @@
-#############################################################################################################################################################
+##########################################################################################################################################################
 # Script Name: SQOOP_ORACLE_HDFS_INITIAL.py
 # Purpose of Script: SQOOP Script written in python to load an initial snapshot of the data from RDBMS system into Atradius Data Hub. The Script will select 
 #                    all the tables listed in the tables.json parameter file and load the data into hive. The environment parameters are picked from the 
-#                    env_variable.json file. The SQOOP script selects all the data from the source tables and dumps them in the form of text files in the     
-#                    Native Zone directory. 
-# Created by:        Mayank Srivastava
-# Created Date:      16-Oct-2018
-# Updated Date:      
-# Updates:            
-#############################################################################################################################################################
+#
+#
+##########################################################################################################################################################
 
 import subprocess
 import logging
@@ -52,7 +48,7 @@ def run_unix_cmd(args_list):
 
 # Create Sqoop Job to load data from source into HDFS
 def sqoop_job(table_name):
-    cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias,'--table', source_schema+'.'+table_name, '-m', '1', '--as-textfile', '--target-dir', target_dir ]
+    cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias,'--table', source_schema+'.'+table_name, '-m', '1', '--hive-import', '--hive-table', target_schema+'.'+table_name] >> 'sqoop_log.out'
     print(cmd)
 
     (ret, out, err) = run_unix_cmd(cmd)

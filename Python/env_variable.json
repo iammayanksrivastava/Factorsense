@@ -4,6 +4,7 @@
     "source_schema" :["ORABUP0"],
     "target_schema" :["d_native_zone"],
     "alias_provider": ["jceks://hdfs/tmp/symf.password.jceks"],
-    "password_alias": ["symf.db.alias"]
+    "password_alias": ["symf.db.alias"],
+    "target_dir":["/user/incoming_data/native_zone/symphony/initial"]
 }
 
