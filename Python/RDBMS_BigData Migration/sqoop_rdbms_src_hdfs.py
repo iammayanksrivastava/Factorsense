@@ -58,6 +58,7 @@ def sqoop_job(table_name):
     print('Removing Success Flag from ' +target_dir+'/'+table_name)
     print(cmd2)
     (ret, out, err) = run_unix_cmd(cmd)
+    print(ret, out, err)
     (ret, out, err) = run_unix_cmd(cmd2)
     print(ret, out, err)
     if ret == 0:
