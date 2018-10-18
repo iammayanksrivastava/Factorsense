@@ -11,7 +11,7 @@ tableslist="Tableslist.txt"
 tname = open(tableslist, 'r')
 
 #Declare Connection Parameter here
-connstr='NLSMAY1/Winter18@sl09.atradiusnet.com:1519/SYMF.atradiusnet.com:ORABUP0'
+connstr='password/userid@address_of_database:port/service_name:dbname'
 conn = cx_Oracle.connect(connstr)
 cur = conn.cursor()
 
