@@ -109,5 +109,3 @@ createHiveStmt_file.close()
 HiveORCingestion_file.close()
 cur.close()
 conn.close()
-
-
