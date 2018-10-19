@@ -1,11 +1,12 @@
-import cx_Oracle
 import subprocess
 import logging
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 import getpass
 import json
 import pymysql.cursors
-
+from read_last_value import last_value
+import cx_Oracle
+from create_query_oracle import create_query
 # Connect to the database
 connection = pymysql.connect(host='vps582064.ovh.net',
                              user='fs_stage',
@@ -14,15 +15,14 @@ connection = pymysql.connect(host='vps582064.ovh.net',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
 
-
 #Read the source tables to be extracted from the json file
-with open('tables.json') as json_param_file:
+with open('param_tables.json') as json_param_file:
     table_name = json.load(json_param_file)
 
 table_name = table_name['source_tables']
 
 #Read the environment varaibles from the json file
-with open('env_variable.json') as env_param_file:
+with open('param_env_variable.json') as env_param_file:
     env_param = json.load(env_param_file)
 
 oracle_url = env_param['oracle_connection']
@@ -50,26 +50,28 @@ def run_unix_cmd(args_list):
 # Create Sqoop Job to load data from source into HDFS Target Directory
 
 def sqoop_job(table_name):
-    try:
-    with connection.cursor() as cursor:
-            sql = "insert into sqoop_audit SELECT max(load_date) FROM `employee`"
-            sql2 = "select cast(max(last_load_date) as char)  from sqoop_audit"
-            cursor.execute(sql)
-            cursor.execute(sql2)
-            result =cursor.fetchone()
-            print (result)
-
-    query = ('"select a.*, '+' current_timestamp, '+ "'NLSMAY1'" + ' from '  + source_schema+'.'+table_name +' a '+ ' where $CONDITIONS"')
+    lastvalue =last_value(table_name)
+    #query = ('"select a.*, '+' current_timestamp, '+ "'NLSMAY1'" + ' from '  + source_schema+'.'+table_name +' a '+ ' where $CONDITIONS"')
+    query = create_query("ORABUP0."+table_name)
     print(query)
-    cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias, '-m', '1', '--as-textfile','--target-dir', target_dir+'/'+table_name,  '--query',query]
-    cmd2 = ['hdfs', 'dfs', '-rm',  target_dir+'/'+table_name+'/'+'_SUCCESS']
+    cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias, '-m', '1', '--as-textfile','--target-dir', target_dir+'/'+table_name, '--query',query, '--incremental', 'append', '--check-column', 'load_date', '--last-value', "'"+lastvalue+"'"]
+    #cmd2 = ['hdfs', 'dfs', '-rm',  target_dir+'/'+table_name+'/'+'_SUCCESS']
     print(cmd)
-    print('Removing Success Flag from ' +target_dir+'/'+table_name)
-    print(cmd2)
+    #print('Removing Success Flag from ' +target_dir+'/'+table_name)
+    #print(cmd2)
     (ret, out, err) = run_unix_cmd(cmd)
     print(ret, out, err)
-    (ret, out, err) = run_unix_cmd(cmd2)
+    #(ret, out, err) = run_unix_cmd(cmd2)
     print(ret, out, err)
+    try:
+        with connection.cursor() as cursor:
+            sql = ("insert into sqoop_audit SELECT max(load_date), "+"'"+table_name+"'"+ " FROM " +table_name+ " group by "+ table_name+";")
+            print(sql)
+            cursor.execute(sql)
+            connection.commit()
+    finally:
+        connection.close()  
+    
     if ret == 0:
         logging.info('Success.')
     else:
@@ -77,4 +79,3 @@ def sqoop_job(table_name):
 
 for i in table_name:
     sqoop_job(i)
-
