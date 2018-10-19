@@ -11,3 +11,5 @@ Data Ingestion Scripts:
 A) load_hdfs_to_hive.py
 B) sqoop_oracle_hdfs_incremental.py
 C) sqoop_oracle_hdfs.py
+
+Please contact me if you want to know more. 
