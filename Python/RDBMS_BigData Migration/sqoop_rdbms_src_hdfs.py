@@ -7,7 +7,7 @@ import getpass
 import json
 #from  create_query_oracle import create_query
 
-# Connect to the database
+# Connect to the database in mysql
 connection = pymysql.connect(host='vps582064.ovh.net',
                              user='fs_stage',
                              password='Residency@18',
