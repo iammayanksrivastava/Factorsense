@@ -1,5 +1,5 @@
-#This job updates changes from source system into the HDFS Data Hub
-#Import Python Libraries for use in the code. 
+#This job updates changes from source system into the HDFS Data Hub.
+# First we import Python Libraries for use in the code. 
 import subprocess
 import logging
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
