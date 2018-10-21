@@ -75,6 +75,7 @@ def sqoop_job(table_name):
     else:
         logging.info('Error.')
 
+#Run the job in sequence for each table. 
 for i in table_name:
     sqoop_job(i)
 
