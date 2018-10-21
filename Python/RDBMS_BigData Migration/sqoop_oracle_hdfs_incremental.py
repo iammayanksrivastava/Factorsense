@@ -7,7 +7,8 @@ import pymysql.cursors
 from read_last_value import last_value
 import cx_Oracle
 from create_query_oracle import create_query
-# Connect to the database
+
+# Connect to the database in mysql for auditing the changes. 
 connection = pymysql.connect(host='vps582064.ovh.net',
                              user='fs_stage',
                              password='Residency@18',
