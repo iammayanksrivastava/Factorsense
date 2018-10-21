@@ -1,5 +1,5 @@
-#This job updates changes from source system into the HDFS Data Hub
-#Import Python Libraries for use in the code. 
+#This job updates changes from source system into the HDFS Data Hub.
+# First we import Python Libraries for use in the code. 
 import subprocess
 import logging
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
@@ -8,7 +8,7 @@ import json
 import pymysql.cursors
 from read_last_value import last_value
 import cx_Oracle
-from create_query_oracle import create_query
+#from create_query_oracle import create_query
 
 #Connect to the database in mysql for auditing the changes. Currently only last date is added into the audit table. 
 connection = pymysql.connect(host='vps582064.ovh.net',
@@ -54,8 +54,8 @@ def run_unix_cmd(args_list):
 
 def sqoop_job(table_name):
     lastvalue =last_value(table_name)
-    #query = ('"select a.*, '+' current_timestamp, '+ "'NLSMAY1'" + ' from '  + source_schema+'.'+table_name +' a '+ ' where $CONDITIONS"')
-    query = create_query("ORABUP0."+table_name)
+    query = ('"select a.*, '+' current_timestamp, '+ "'NLSMAY1'" + ' from '  + source_schema+'.'+table_name +' a '+ ' where $CONDITIONS"')
+    #query = create_query("ORABUP0."+table_name)
     print(query)
     cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias, '-m', '1', '--as-textfile','--target-dir', target_dir+'/'+table_name, '--query',query, '--incremental', 'append', '--check-column', 'load_date', '--last-value', "'"+lastvalue+"'"]
     #cmd2 = ['hdfs', 'dfs', '-rm',  target_dir+'/'+table_name+'/'+'_SUCCESS']
