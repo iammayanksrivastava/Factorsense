@@ -79,5 +79,7 @@ def sqoop_job(table_name):
     else:
         logging.info('Error.')
 
+
+#Run sqoop job for each table in the parameter file. 
 for i in table_name:
     sqoop_job(i)
