@@ -61,7 +61,7 @@ def sqoop_job(table_name):
     last_update_date = max_load_date(table_name)
     #query = ('"select a.*, '+' current_timestamp, '+ "'NLSMAY1'" + ' from '  + source_schema+'.'+table_name +' a '+ ' where $CONDITIONS"')
     init_query = create_query("ORABUP0."+table_name)
-    final_query = init_query+ lastvalue +','+'YYYY-MM-DD hh:mi:ss)'
+    final_query = init_query+ "'"+lastvalue+"'" +','+"'"+ "'YYYY-MM-DD hh24:mi:ss'"+')'
     print(final_query)
     #cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias, '-m', '1', '--as-textfile','--target-dir', target_dir+'/'+table_name, '--query',query, '--incremental', 'append', '--check-column', 'last_update_dat', '--last-value', "'"+lastvalue+"'"]
     cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias, '-m', '1', '--as-textfile','--target-dir', target_dir+'/'+table_name, '--query',final_query]
