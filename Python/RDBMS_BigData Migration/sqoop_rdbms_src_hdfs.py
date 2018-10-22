@@ -1,14 +1,16 @@
 import pymysql
-#import cx_Oracle
+import cx_Oracle
 import subprocess
 import logging
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 import getpass
 import json
-#from  create_query_oracle import create_query
+from  create_query_oracle import create_query
+from read_max_load_date import max_load_date
+
 
 # Connect to the database in mysql
-connection = pymysql.connect(host='vps582064.ovh.net',
+mysql = pymysql.connect(host='vps582064.ovh.net',
                              user='fs_stage',
                              password='Residency@18',
                              db='fs_stage',
@@ -50,8 +52,9 @@ def run_unix_cmd(args_list):
 # Create Sqoop Job to load data from source into HDFS Target Directory
 
 def sqoop_job(table_name):
-    query = ('"select a.*, '+' current_timestamp, '+ "'NLSMAY1'" + ' from '  + source_schema+'.'+table_name +' a '+ ' where $CONDITIONS"')
-    #query = create_query("ORABUP0."+table_name)
+    #query = ('"select a.*, '+' current_timestamp, '+ "'NLSMAY1'" + ' from '  + source_schema+'.'+table_name +' a '+ ' where $CONDITIONS"')
+    query = create_query("ORABUP0."+table_name)
+    last_update_date = max_load_date(table_name)
     cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias, '-m', '1', '--as-textfile','--target-dir', target_dir+'/'+table_name,  '--query',query]
     cmd2 = ['hdfs', 'dfs', '-rm',  target_dir+'/'+table_name+'/'+'_SUCCESS']
     print(cmd)
@@ -62,13 +65,13 @@ def sqoop_job(table_name):
     (ret, out, err) = run_unix_cmd(cmd2)
     print(ret, out, err)
     try:
-        with connection.cursor() as cursor:
-            sql = ("insert into sqoop_audit SELECT max(load_date), "+"'"+table_name+"'"+ " FROM " +table_name+ " group by "+ table_name+";")
+        with mysql.cursor() as cursor:
+            sql = ("'insert into sqoop_audit values ('"+last_update_date+" , "+table_name+"'" ")")
             print(sql)
             cursor.execute(sql)
-            connection.commit()
+            cursor.commit()
     finally:
-        connection.close()  
+        mysql.close()  
 
     if ret == 0:
         logging.info('Success.')
