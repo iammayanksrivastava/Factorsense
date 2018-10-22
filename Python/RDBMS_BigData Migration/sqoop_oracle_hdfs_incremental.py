@@ -75,7 +75,7 @@ def sqoop_job(table_name):
     print(ret, out, err)
     try:
         with mysql.cursor() as cursor:
-            sql = ("insert into sqoop_audit values ('"+str(last_update_date)+"'"+" , "+"'"+table_name+"'" +'current_timestamp'+")")
+            sql = ("insert into sqoop_audit values ('"+str(last_update_date)+"'"+" , "+"'"+table_name+"'"+',' +'current_timestamp'+")")
             print(sql)
             cursor.execute(sql)
             mysql.commit()
