@@ -8,13 +8,15 @@ import json
 import pymysql.cursors
 from read_last_value import last_value
 import cx_Oracle
-#from create_query_oracle import create_query
+from create_incr_query import create_query
+from read_max_load_date import max_load_date
+
 
 #Connect to the database in mysql for auditing the changes. Currently only last date is added into the audit table. 
-connection = pymysql.connect(host='vps582064.ovh.net',
-                             user='fs_stage',
+mysql = pymysql.connect(host='lthdp003.atradiusnet.com',
+                             user='dh_audit',
                              password='Residency@18',
-                             db='fs_stage',
+                             db='atr_data_hub',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
 
@@ -53,11 +55,16 @@ def run_unix_cmd(args_list):
 # Create Sqoop Job to load data from source into HDFS Target Directory
 
 def sqoop_job(table_name):
+    #The last value which was loaded into the Data Hub is picked from the SQOOP Audit Table which holds the details from the last run. 
     lastvalue =last_value(table_name)
-    query = ('"select a.*, '+' current_timestamp, '+ "'NLSMAY1'" + ' from '  + source_schema+'.'+table_name +' a '+ ' where $CONDITIONS"')
-    #query = create_query("ORABUP0."+table_name)
-    print(query)
-    cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias, '-m', '1', '--as-textfile','--target-dir', target_dir+'/'+table_name, '--query',query, '--incremental', 'append', '--check-column', 'load_date', '--last-value', "'"+lastvalue+"'"]
+    #Last Update Date is fetched from the source and this is also updated into the SQOOP Audit Table. 
+    last_update_date = max_load_date(table_name)
+    #query = ('"select a.*, '+' current_timestamp, '+ "'NLSMAY1'" + ' from '  + source_schema+'.'+table_name +' a '+ ' where $CONDITIONS"')
+    init_query = create_query("ORABUP0."+table_name)
+    final_query = init_query+ lastvalue +','+'YYYY-MM-DD hh:mi:ss)'
+    print(final_query)
+    #cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias, '-m', '1', '--as-textfile','--target-dir', target_dir+'/'+table_name, '--query',query, '--incremental', 'append', '--check-column', 'last_update_dat', '--last-value', "'"+lastvalue+"'"]
+    cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias, '-m', '1', '--as-textfile','--target-dir', target_dir+'/'+table_name, '--query',final_query]
     #cmd2 = ['hdfs', 'dfs', '-rm',  target_dir+'/'+table_name+'/'+'_SUCCESS']
     print(cmd)
     #print('Removing Success Flag from ' +target_dir+'/'+table_name)
@@ -67,13 +74,13 @@ def sqoop_job(table_name):
     #(ret, out, err) = run_unix_cmd(cmd2)
     print(ret, out, err)
     try:
-        with connection.cursor() as cursor:
-            sql = ("insert into sqoop_audit SELECT max(load_date), "+"'"+table_name+"'"+ " FROM " +table_name+ " group by "+ table_name+";")
+        with mysql.cursor() as cursor:
+            sql = ("insert into sqoop_audit values ('"+str(last_update_date)+"'"+" , "+"'"+table_name+"'" +'current_timestamp'+")")
             print(sql)
             cursor.execute(sql)
-            connection.commit()
+            mysql.commit()
     finally:
-        connection.close()  
+        pass 
     
     if ret == 0:
         logging.info('Success.')
@@ -84,3 +91,5 @@ def sqoop_job(table_name):
 #Run sqoop job for each table in the parameter file. 
 for i in table_name:
     sqoop_job(i)
+
+mysql.close()

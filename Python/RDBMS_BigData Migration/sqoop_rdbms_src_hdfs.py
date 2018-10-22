@@ -55,6 +55,7 @@ def run_unix_cmd(args_list):
 def sqoop_job(table_name):
     #query = ('"select a.*, '+' current_timestamp, '+ "'NLSMAY1'" + ' from '  + source_schema+'.'+table_name +' a '+ ' where $CONDITIONS"')
     query = create_query("ORABUP0."+table_name)
+    #Last Update Date is fetched from the source and this is also updated into the SQOOP Audit Table. 
     last_update_date = max_load_date(table_name)
     cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias, '-m', '1', '--as-textfile','--target-dir', target_dir+'/'+table_name,  '--query',query]
     cmd2 = ['hdfs', 'dfs', '-rm',  target_dir+'/'+table_name+'/'+'_SUCCESS']
@@ -67,7 +68,7 @@ def sqoop_job(table_name):
     print(ret, out, err)
     try:
         with mysql.cursor() as cursor:
-            sql = ("insert into sqoop_audit values ('"+str(last_update_date)+"'"+" , "+"'"+table_name+"'" +")")
+            sql = ("insert into sqoop_audit values ('"+str(last_update_date)+"'"+" , "+"'"+table_name+"'" +'current_timestamp'+")")
             print(sql)
             cursor.execute(sql)
             mysql.commit()

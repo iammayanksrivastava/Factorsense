@@ -14,7 +14,7 @@ def last_value(table_name):
         try:
                 with connection.cursor() as cursor:
                         getlastvalue=[]
-                        sql2 = ("select table_name, cast(max(last_load_date) as char) as lval  from sqoop_audit where table_name="+"'"+table_name+"'"+" group by table_name")
+                        sql2 = ("select table_name, cast(max(load_date) as char) as lval  from sqoop_audit where table_name="+"'"+table_name+"'"+" group by table_name")
                         cursor.execute(sql2)
                         lvalue =cursor.fetchone()
                         lastvalue=lvalue['lval']
@@ -26,4 +26,4 @@ def last_value(table_name):
                         #cursor.execute(sql)
                         return lastvalue
         finally:
-                connection.close()
+                pass
