@@ -25,5 +25,5 @@ def create_query(tname):
             columnName=str(i[0])
             getColNames.append(columnName)
     select = ['"select ' ]
-    query = (select[0]+' '+','.join(getColNames) +' ,current_timestamp, '+ "'NLSMAY1'" + ' from '  + 'ORABUP0.'+tname +' a '+ ' where last_update_dat < to_timestamp(')
+    query = (select[0]+' '+','.join(getColNames) +' ,current_timestamp, '+ "'NLSMAY1'" + ' from '  + 'ORABUP0.'+tname +' a '+ ' where last_update_dat > to_timestamp(')
     return query
