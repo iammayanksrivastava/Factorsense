@@ -18,8 +18,8 @@ cur = conn.cursor()
 #Build the Create Statement for all tables from the sources:
 def max_load_date(tname):
         sqlStmt='SELECT max(last_update_dat) as last_update_dat FROM {usertable}'.format(usertable=tname)
-        conn.execute(sqlStmt)
-        lvalue = conn.fetchone()
+        cur.execute(sqlStmt)
+        lvalue = cur.fetchone()
         last_date = lvalue[0]
         return last_date
-        
+

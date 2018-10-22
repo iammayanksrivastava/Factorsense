@@ -9,13 +9,14 @@ from  create_query_oracle import create_query
 from read_max_load_date import max_load_date
 
 
-# Connect to the database in mysql
-mysql = pymysql.connect(host='vps582064.ovh.net',
-                             user='fs_stage',
+#Connect to the database in mysql for auditing the changes. Currently only last date is added into the audit table.
+mysql = pymysql.connect(host='lthdp003.atradiusnet.com',
+                             user='dh_audit',
                              password='Residency@18',
-                             db='fs_stage',
+                             db='atr_data_hub',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
+
 
 #Read the source tables to be extracted from the json file
 with open('param_tables.json') as json_param_file:
@@ -66,19 +67,20 @@ def sqoop_job(table_name):
     print(ret, out, err)
     try:
         with mysql.cursor() as cursor:
-            sql = ("'insert into sqoop_audit values ('"+last_update_date+" , "+table_name+"'" ")")
+            sql = ("insert into sqoop_audit values ('"+str(last_update_date)+"'"+" , "+"'"+table_name+"'" +")")
             print(sql)
             cursor.execute(sql)
-            cursor.commit()
+            mysql.commit()
     finally:
-        mysql.close()  
+        pass
 
     if ret == 0:
         logging.info('Success.')
     else:
         logging.info('Error.')
 
-#Run the job in sequence for each table. 
+#Run the job in sequence for each table.
 for i in table_name:
     sqoop_job(i)
 
+mysql.close()
