@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #Import libraries
+=======
+
+>>>>>>> 227c25d18691f867acb70cfa4946c1b514e117de
 import cx_Oracle
 import subprocess
 import logging
