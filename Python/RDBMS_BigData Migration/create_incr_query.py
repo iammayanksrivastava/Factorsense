@@ -1,4 +1,4 @@
-#Import libraries
+#Import libraries for the script
 import cx_Oracle
 import subprocess
 import logging
