@@ -1,5 +1,4 @@
-#This job updates changes from source system into the HDFS Data Hub.
-# First we import Python Libraries for use in the code. 
+
 import subprocess
 import logging
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
@@ -11,12 +10,11 @@ import cx_Oracle
 from create_incr_query import create_query
 from read_max_load_date import max_load_date
 
-
-#Connect to the database in mysql for auditing the changes. Currently only last date is added into the audit table. 
-mysql = pymysql.connect(host='lthdp003.atradiusnet.com',
-                             user='dh_audit',
-                             password='Residency@18',
-                             db='atr_data_hub',
+#Connect to the database in mysql for auditing the changes. Currently only last date is added into the audit table.
+mysql = pymysql.connect(host='',
+                             user='',
+                             password='',
+                             db='',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
 
@@ -36,13 +34,14 @@ source_schema = env_param ['source_schema']
 password_alias = env_param['password_alias']
 alias_provider = env_param['alias_provider']
 target_dir = env_param['target_dir']
+target_dir_incr = env_param['target_dir_incr']
 oracle_url = oracle_url[0]
 username = username[0]
 source_schema = source_schema [0]
 password_alias = password_alias[0]
 alias_provider = alias_provider[0]
 target_dir = target_dir[0]
-
+target_dir_incr = target_dir_incr[0]
 
 # Function to run Hadoop command
 def run_unix_cmd(args_list):
@@ -55,16 +54,17 @@ def run_unix_cmd(args_list):
 # Create Sqoop Job to load data from source into HDFS Target Directory
 
 def sqoop_job(table_name):
-    #The last value which was loaded into the Data Hub is picked from the SQOOP Audit Table which holds the details from the last run. 
+    #The last value which was loaded into the Data Hub is picked from the SQOOP Audit Table which holds the details from the last run.
     lastvalue =last_value(table_name)
-    #Last Update Date is fetched from the source and this is also updated into the SQOOP Audit Table. 
+    #Last Update Date is fetched from the source and this is also updated into the SQOOP Audit Table.
     last_update_date = max_load_date(table_name)
-    #query = ('"select a.*, '+' current_timestamp, '+ "'NLSMAY1'" + ' from '  + source_schema+'.'+table_name +' a '+ ' where $CONDITIONS"')
-    init_query = create_query("ORABUP0."+table_name)
-    final_query = init_query+ "'"+lastvalue+"'" +','+"'"+ "'YYYY-MM-DD hh24:mi:ss'"+')'
+    #print(last_update_date)
+    init_query = create_query(table_name)
+    final_query = init_query+"'"+lastvalue+"'"+','+"'"+"DD/MM/YYYY HH24:MI:SS""'"+')'+' AND $CONDITIONS'
     print(final_query)
-    #cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias, '-m', '1', '--as-textfile','--target-dir', target_dir+'/'+table_name, '--query',query, '--incremental', 'append', '--check-column', 'last_update_dat', '--last-value', "'"+lastvalue+"'"]
-    cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias, '-m', '1', '--as-textfile','--target-dir', target_dir+'/'+table_name, '--query',final_query]
+    #print(final_query)
+    #cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias, '-m', '1', '--as-textfile','--target-dir', target_dir_incr+'/'+table_name, '--query',query, '--incremental', 'append', '--check-column', 'last_update_dat','--last-value', "'"+lastvalue+"'"]
+    cmd = ['sqoop', 'import', '-Dhadoop.security.credential.provider.path='+alias_provider, '--connect', oracle_url, '--username', username,'--password-alias', password_alias,'-m', '1', '--as-textfile','--target-dir', target_dir_incr+'/'+table_name, '--query',final_query]
     #cmd2 = ['hdfs', 'dfs', '-rm',  target_dir+'/'+table_name+'/'+'_SUCCESS']
     print(cmd)
     #print('Removing Success Flag from ' +target_dir+'/'+table_name)
@@ -80,15 +80,15 @@ def sqoop_job(table_name):
             cursor.execute(sql)
             mysql.commit()
     finally:
-        pass 
-    
+        pass
+
     if ret == 0:
         logging.info('Success.')
     else:
         logging.info('Error.')
 
 
-#Run sqoop job for each table in the parameter file. 
+#Run sqoop job for each table in the parameter file.
 for i in table_name:
     sqoop_job(i)
 
