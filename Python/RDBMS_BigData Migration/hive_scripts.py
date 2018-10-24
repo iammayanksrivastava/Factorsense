@@ -1,3 +1,4 @@
+#Import Libraries
 import cx_Oracle
 
 #Declare Input Parameter File with list of tables
