@@ -17,10 +17,6 @@ mysql = pymysql.connect(host='lthdp003.atradiusnet.com',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
 
-
-
-
-
 #Read the source tables to be extracted from the json file
 with open('param_tables.json') as json_param_file:
     table_name = json.load(json_param_file)
