@@ -25,5 +25,5 @@ def create_query(tname):
             columnName=str(i[0])
             getColNames.append(columnName)
     select = ['"select ' ]
-    query = (select[0]+' '+','.join(getColNames) +' ,current_timestamp, '+ "'NLSMAY1'" + ' from '  + 'ORABUP0.'+tname +' a '+ ' where $CONDITIONS"')
+    query = (select[0]+' '+','.join(getColNames) +' ,current_timestamp, '+ "'NLSMAY1'" + ' from '  +tname +' a '+ ' where $CONDITIONS"')
     return query
