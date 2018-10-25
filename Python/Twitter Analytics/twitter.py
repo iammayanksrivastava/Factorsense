@@ -48,4 +48,4 @@ auth.set_access_token(access_token, access_token_secret)
 #Use the listener class for stream processing
 twitterStream = Stream(auth, listener())
 #Filter for these topics
-twitterStream.filter(track=["azure","cloud","hdinsight"])
+twitterStream.filter(track=["#modi", "#Modi"])
