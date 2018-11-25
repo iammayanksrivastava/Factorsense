@@ -10,7 +10,6 @@ createHiveORCingestion="createHiveORCingestionStmt.txt"
 
 #Declare Connection Parameter here
 connstr='NLSMAY1/Winter18@sl09.atradiusnet.com:1519/SYMF.atradiusnet.com:ORABUP0'
-#connstr='pasreadonly/pasread4devp1@N01DOL424.tent.trt.csaa.pri/PASDEVP1'
 conn = cx_Oracle.connect(connstr)
 cur = conn.cursor()
 
