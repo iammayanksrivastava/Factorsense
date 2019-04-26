@@ -1,4 +1,4 @@
-#testing the jenkins integration with Git
+#testing the jenkins integration with GitHub
 #Import Necessary Libraries
 import requests
 from bs4 import BeautifulSoup
