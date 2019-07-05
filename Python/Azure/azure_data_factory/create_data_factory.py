@@ -47,7 +47,7 @@ rg_params = {'location':'westeurope'}
 df_params = {'location':'westeurope'}
 
 # Create database linked service
-ls_tgt_name = 'tgtgrporacledb'
+ls_tgt_name = 'tgtazuresqldb'
 
 # Create an Azure Storage linked service
 ls_src_name = 'srcgrpblob'
@@ -100,7 +100,7 @@ def print_activity_run_details(activity_run):
 
 def main():
 
-    create the resource group
+    #create the resource group
     resource_client.resource_groups.create_or_update(rg_name, rg_params)
 
     Create a data factory
@@ -113,24 +113,18 @@ def main():
 
 
 
-    Specify the name and key of your Azure Storage account
+    #Specify the name and key of your Azure Storage account
     source_string = SecureString(source)
     ls_azure_storage = AzureStorageLinkedService(connection_string=source_string)
     ls_source = adf_client.linked_services.create_or_update(rg_name, df_name, ls_src_name, ls_azure_storage)
     print_item(ls_source)
-    
-    Specify the database connection strings for the Azure SQL
-    tgt_string = SecureString(target)
-    ls_azure_tgt = OracleLinkedService(connection_string=tgt_string, connect_via='poc-westeurope-gp-data-ir')
-    ls_target = adf_client.linked_services.create_or_update(rg_name, df_name, ls_tgt_name, ls_azure_tgt)
-    print_item(ls_target)
 
-
-    Specify the database connection strings for the Azure SQL
+    #Specify the database connection strings for the Azure SQL
     tgt_string = SecureString(target)
     ls_azure_tgt = AzureSqlDatabaseLinkedService(connection_string=tgt_string)
     ls = adf_client.linked_services.create_or_update(rg_name, df_name, ls_tgt_name, ls_azure_tgt)
     print_item(ls)
+
 
 def srctgt(table_name):
     # Create an Azure blob dataset (input)
