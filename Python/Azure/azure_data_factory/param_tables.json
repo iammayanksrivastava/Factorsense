@@ -1,5 +1,7 @@
 {
     "source_tables":[
-"TBOR_BUYER_GROUP_RISKS"
+"TBOR_BUYER_GROUP_RISKS",
+"Benefits",
+"claims"
 ]
 }

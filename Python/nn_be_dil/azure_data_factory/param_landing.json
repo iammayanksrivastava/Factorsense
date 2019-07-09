@@ -1,0 +1,6 @@
+{
+    "source_tables":[
+"BENEFITFILE",
+"CLAIMS"
+]
+}
