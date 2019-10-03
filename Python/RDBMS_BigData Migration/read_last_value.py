@@ -2,10 +2,10 @@ import pymysql.cursors
 import datetime
 # Connect to the database
 
-connection = pymysql.connect(host='lthdp003.atradiusnet.com',
-                             user='dh_audit',
-                             password='Residency@18',
-                             db='atr_data_hub',
+connection = pymysql.connect(host='',
+                             user='',
+                             password='',
+                             db='',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
 
