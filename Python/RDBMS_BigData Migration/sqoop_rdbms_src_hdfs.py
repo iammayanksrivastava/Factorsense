@@ -10,10 +10,10 @@ from read_max_load_date import max_load_date
 
 
 #Connect to the database in mysql for auditing the changes. Currently only last date is added into the audit table.
-mysql = pymysql.connect(host='lthdp003.atradiusnet.com',
-                             user='dh_audit',
-                             password='Residency@18',
-                             db='atr_data_hub',
+mysql = pymysql.connect(host='',
+                             user='',
+                             password='',
+                             db='',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
 
