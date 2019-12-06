@@ -1,0 +1,5 @@
+name                                        =   "nnbetstdil"
+location                                    =   "West Europe"
+environment                                 =   "Test"   
+costcenter                                  =   "CEBEL100"
+ApplicationName                             =   "DIL"  
