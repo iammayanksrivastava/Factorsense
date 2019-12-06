@@ -5,7 +5,7 @@ steps:
 - task: AzureCLI@1
   inputs:
     azureSubscription: 'deploy'
-    scriptPath: ../nn_be_iac/nn_be_dil_erwin/plan.sh
+    scriptPath: Terraform/nn_be_iac/nn_be_dil_erwin/plan.sh
     addSpnToEnvironment: true
   env:
     ARM_STORAGE_ACCOUNT_NAME: "terraformerwinstate"
