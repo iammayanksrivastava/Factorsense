@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <h1>Select the Genre:</h1>
+
+    <div class="film-selectors">
+      <div>
+        <input
+          type="checkbox"
+          id="horror-selector"
+          name="film"
+          value="horror"
+        />
+        <label for="horror-selector"> Horror</label>
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          id="comedy-selector"
+          name="film"
+          value="comedy"
+        />
+        <label for="comedy-selector"> Comedy</label>
+      </div>
+      <div>
+        <input type="checkbox" id="scifi-selector" name="film" value="scifi" />
+        <label for="scifi-selector"> Sci-Fi</label>
+      </div>
+    </div>
+
+    <ul class="films">
+      <li class="scifi">2001: A Space Odyssey</li>
+      <li class="horror">The Shining</li>
+      <li class="comedy">Dr. Strangelove</li>
+      <li class="scifi">A Clockwork Orange</li>
+      <li class="scifi">Blade Runner</li>
+      <li class="comedy">Grand Budapest Hotel</li>
+      <li class="horror">Scream</li>
+      <li class="horror">Das Kabinet des dr. Caligari</li>
+    </ul>
+
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script src="./js/app.js"></script>
+
+    <hr />
+    <label>
+      Order By:
+      <select id="order">
+        <option class="company" value="company"> Company </option>
+        <option class="contact" value="contact"> Contact</option>
+        <option class="country" value="country"> Country</option>
+      </select>
+    </label>
+    <table>
+      <tr></tr>
+    </table>
+
+    <table>
+      <thead>
+        <th>Company</th>
+        <th>Contact</th>
+        <th>Country</th>
+      </thead>
+      <tbody class="table-body">
+        <tr>
+          <td class="company">Alfreds Futterkiste</td>
+          <td class="contact">Maria Anders</td>
+          <td class="country">Germany</td>
+        </tr>
+        <tr>
+          <td class="company">Centro comercial Moctezuma</td>
+          <td class="contact">Francisco Chang</td>
+          <td class="country">Mexico</td>
+        </tr>
+        <tr>
+          <td class="company">Ernst Handel</td>
+          <td class="contact">Roland Mendel</td>
+          <td class="country">Austria</td>
+        </tr>
+        <tr>
+          <td class="company">Island Trading</td>
+          <td class="contact">Helen Bennett</td>
+          <td class="country">UK</td>
+        </tr>
+        <tr>
+          <td class="company">Laughing Bacchus Winecellars</td>
+          <td class="contact">Yoshi Tannamuri</td>
+          <td class="country">Canada</td>
+        </tr>
+        <tr>
+          <td class="company">Magazzini Alimentari Riuniti</td>
+          <td class="contact">Giovanni Rovelli</td>
+          <td class="country">Italy</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

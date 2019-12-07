@@ -24,8 +24,6 @@
   text-align: center;
   text-transform: uppercase;
   font: "Roboto Condensed";
-
-  
 }
 
 
@@ -200,16 +198,12 @@
 
 
 .col-middle {
-  width: 5%;
-  height: 5%;
-  margin: 5%
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 .col-3 {  
-  width: 30%;
-  height: 30%;
-  margin: 0%;
-  
+  width: 30%;  
 }
 
 
