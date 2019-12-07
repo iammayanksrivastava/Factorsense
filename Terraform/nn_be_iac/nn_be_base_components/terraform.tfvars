@@ -1,0 +1,8 @@
+name                                        =   "nnbeengg"
+location                                    =   "West Europe"
+environment                                 =   "Development"   
+costcenter                                  =   "CEBEL100"
+application                                 =   "DIL"  
+replication_type                            =   "LRS"
+account_tier                                =   "Standard"
+accountkind                                 =   "StorageV2"

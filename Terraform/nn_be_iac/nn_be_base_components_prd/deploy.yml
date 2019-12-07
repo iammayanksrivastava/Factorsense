@@ -1,0 +1,14 @@
+name: NN Belgium DIL UAT Infrastructure Deployment    
+pool:
+  vmImage: 'Ubuntu 16.04'
+steps:
+- task: AzureCLI@1
+  displayName: Deploy Base components for NNBE UAT and Prod Environment
+  inputs:
+    azureSubscription: 'NNBE_DIL_DEVOPS_AP'
+    scriptPath: nn_be_iac/nn_be_base_components_prd/plan.sh
+    addSpnToEnvironment: true
+  env:
+    ARM_STORAGE_ACCOUNT_NAME: "terraformuatstate"
+    ARM_STORAGE_CONTAINER: "terraformuatstate"
+    ARM_STORAGE_KEY: "terraformuatstate.tfstate"
