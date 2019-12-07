@@ -1,4 +1,4 @@
-name: terraform-yaml-pipline NN Test DIL Deployment    
+name: terraform-yaml-pipline Virtual Machine Deployment    
 pool:
   vmImage: 'Ubuntu 16.04'
 steps:
@@ -8,6 +8,6 @@ steps:
     scriptPath: Terraform/nn_be_iac/nn_be_dil_erwin/plan.sh
     addSpnToEnvironment: true
   env:
-    ARM_STORAGE_ACCOUNT_NAME: "terraformstatevm"
-    ARM_STORAGE_CONTAINER: "fsvirtualmachine"
-    ARM_STORAGE_KEY: "fsvirtualmachine.tfstate"
+    ARM_STORAGE_ACCOUNT_NAME: "fsterraformstate"
+    ARM_STORAGE_CONTAINER: "terraformstate"
+    ARM_STORAGE_KEY: "terraformstate.tfstate"

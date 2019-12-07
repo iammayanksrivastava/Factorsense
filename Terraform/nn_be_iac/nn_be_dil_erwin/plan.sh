@@ -6,5 +6,5 @@ export ARM_TENANT_ID=$(az account show --query="tenantId" -o tsv)
 export ARM_ACCESS_KEY=$(az storage account keys list -n ${ARM_STORAGE_ACCOUNT_NAME} --query="[0].value" -o tsv)
 terraform init -backend-config="storage_account_name=$ARM_STORAGE_ACCOUNT_NAME" -backend-config="container_name=$ARM_STORAGE_CONTAINER" -backend-config="key=$ARM_STORAGE_KEY"
 terraform validate
-terraform plan -out=erwfsvirtualmachinein.tfplan
+terraform plan -out=fsvirtualmachine.tfplan
 terraform apply "fsvirtualmachine.tfplan"
