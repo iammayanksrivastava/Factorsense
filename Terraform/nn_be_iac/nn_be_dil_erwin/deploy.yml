@@ -8,6 +8,6 @@ steps:
     scriptPath: Terraform/nn_be_iac/nn_be_dil_erwin/plan.sh
     addSpnToEnvironment: true
   env:
-    ARM_STORAGE_ACCOUNT_NAME: "terraformerwinstate"
-    ARM_STORAGE_CONTAINER: "nnbedeverwin"
-    ARM_STORAGE_KEY: "erwin.tfstate"
+    ARM_STORAGE_ACCOUNT_NAME: "terraformstatevm"
+    ARM_STORAGE_CONTAINER: "fsvirtualmachine"
+    ARM_STORAGE_KEY: "fsvirtualmachine.tfstate"
