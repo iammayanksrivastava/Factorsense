@@ -1,1 +1,1 @@
-This is a test file for testing commit to two repor
+This is a test file for testing commit to two repositories
