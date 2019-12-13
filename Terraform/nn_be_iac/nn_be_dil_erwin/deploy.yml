@@ -1,0 +1,13 @@
+name: terraform-yaml-pipline Virtual Machine Deployment    
+pool:
+  vmImage: 'Ubuntu 16.04'
+steps:
+- task: AzureCLI@1
+  inputs:
+    azureSubscription: 'deploy'
+    scriptPath: Terraform/nn_be_iac/nn_be_dil_erwin/plan.sh
+    addSpnToEnvironment: true
+  env:
+    ARM_STORAGE_ACCOUNT_NAME: "fsterraformstate"
+    ARM_STORAGE_CONTAINER: "terraformstate"
+    ARM_STORAGE_KEY: "terraformstate.tfstate"

@@ -1,0 +1,5 @@
+name                                        =   "nnbeuatdil"
+location                                    =   "West Europe"
+environment                                 =   "UAT"   
+costcenter                                  =   "CEBEL100"
+ApplicationName                             =   "DIL"  

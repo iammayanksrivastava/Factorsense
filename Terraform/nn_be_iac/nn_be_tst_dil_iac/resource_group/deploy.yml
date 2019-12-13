@@ -1,0 +1,14 @@
+name: NN Belgium DIL Resource Group Deployment    
+pool:
+  vmImage: 'Ubuntu 16.04'
+steps:
+- task: AzureCLI@1
+  displayName: Deploy Azure Resource Group
+  inputs:
+    azureSubscription: 'deploy'
+    scriptPath: nn_be_iac/nn_be_tst_dil_iac/resource_group/plan.sh
+    addSpnToEnvironment: true
+  env:
+    ARM_STORAGE_ACCOUNT_NAME: "terraformtststate"
+    ARM_STORAGE_CONTAINER: "terraformtststate"
+    ARM_STORAGE_KEY: "diltstrg.tfstate"

@@ -1,0 +1,8 @@
+name                                =   "nnbedilerwin"
+location                            =   "West Europe"
+environment                         =   "Design"   
+costcenter                          =   "CEBEL100"
+ApplicationName                     =   "Erwin"  
+admin_username                      =   "nnbedilerwin"
+vm_image_version                    =   "/subscriptions/f916599a-ad45-43f3-b9d6-42e33ae1b5f1/resourceGroups/release/providers/Microsoft.Compute/galleries/sos/images/windows2016-dsvm/versions/2019.07.24"
+subnet                              =   "nnbe-westeu-dev-dil-storage-sub"

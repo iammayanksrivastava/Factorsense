@@ -1,0 +1,6 @@
+{
+    "ingestion_tables":[
+"I_SOLIFE_BENEFITFILE",
+"I_SOLIFE_CLAIMS"
+]
+}

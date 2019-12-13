@@ -1,0 +1,4 @@
+steps:
+  - script: |
+      pip install azure
+    displayName: 'Test with pytest'
