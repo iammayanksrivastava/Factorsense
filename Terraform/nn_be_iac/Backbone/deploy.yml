@@ -6,7 +6,7 @@ steps:
   displayName: Deploy Azure Resources in Resource Group
   inputs:
     azureSubscription: 'deploy'
-    scriptPath: nn_be_iac/Backbone/plan.sh
+    scriptPath: Terraform/nn_be_iac/Backbone/plan.sh
     addSpnToEnvironment: true
   env:
     ARM_STORAGE_ACCOUNT_NAME: "fsenseterraformstate"
