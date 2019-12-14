@@ -1,0 +1,14 @@
+name: NN Belgium DIL Infrastructure Deployment    
+pool:
+  vmImage: 'Ubuntu 16.04'
+steps:
+- task: AzureCLI@1
+  displayName: Deploy Azure Resources in Resource Group
+  inputs:
+    azureSubscription: 'deploy'
+    scriptPath: nn_be_iac/Backbone/plan.sh
+    addSpnToEnvironment: true
+  env:
+    ARM_STORAGE_ACCOUNT_NAME: "fsenseterraformstate"
+    ARM_STORAGE_CONTAINER: "fsenseterraformstate"
+    ARM_STORAGE_KEY: "backbone.tfstate"
