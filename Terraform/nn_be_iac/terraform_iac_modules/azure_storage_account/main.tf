@@ -55,7 +55,7 @@ resource "azurerm_storage_account" "storage" {
 
 resource "azurerm_storage_container" "container" {
   name                  = "vhds"
-  resource_group_name   = "${azurerm_resource_group.backbonerg.name}"
+  resource_group_name   = "${data.azurerm_resource_group.backbonerg.name}"
   storage_account_name  = "${azurerm_storage_account.storage.name}"
   container_access_type = "private"
 }
