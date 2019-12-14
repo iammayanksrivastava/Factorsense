@@ -9,6 +9,13 @@
 # }
 
 ########################################################################################################
+# Identify the resource group
+########################################################################################################
+
+data "azurerm_resource_group" "backbonerg" {
+  name = "${var.name}rg"
+}
+########################################################################################################
 # Identify the subnet in which the storage account has to be deployed
 ########################################################################################################
 # data "azurerm_subnet" "subnet" {
@@ -41,6 +48,17 @@ resource "azurerm_storage_account" "storage" {
   }
 }
 
+
+########################################################################################################
+# Create Container in the Storage Account
+########################################################################################################
+
+resource "azurerm_storage_container" "container" {
+  name                  = "vhds"
+  resource_group_name   = "${azurerm_resource_group.backbonerg.name}"
+  storage_account_name  = "${azurerm_storage_account.storage.name}"
+  container_access_type = "private"
+}
 
 ########################################################################################################
 # Create ADLS Storage Account 
