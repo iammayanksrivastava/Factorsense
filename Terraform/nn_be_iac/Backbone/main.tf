@@ -55,19 +55,19 @@ module "resourcegroup" {
 # Create Storage Account
 #######################################################################################################
 
-# module "storageaccount" {
-#   source                                    = "../../terraform_iac_modules/azure_storage_account"
-#   name                                      = "${var.name}"
-#   location                                  = "${var.location}"
-#   environment                               = "${var.environment}"
-#   costcenter                                = "${var.costcenter}"
-#   ApplicationName                           = "${var.ApplicationName}"
-#   account_tier                              = "${var.account_tier}"
-#   replication_type                          = "${var.replication_type}"
-#   accountkind                               = "${var.accountkind}"
-#   subscription_id                           = "${var.subscription_id}" 
-#   storage_account_contributor_principal_id  = "${var.storage_account_contributor_principal_id}"
-# }
+module "storageaccount" {
+  source                                    = "../../terraform_iac_modules/azure_storage_account"
+  name                                      = "${var.name}"
+  location                                  = "${var.location}"
+  environment                               = "${var.environment}"
+  costcenter                                = "${var.costcenter}"
+  ApplicationName                           = "${var.ApplicationName}"
+  account_tier                              = "${var.account_tier}"
+  replication_type                          = "${var.replication_type}"
+  accountkind                               = "${var.accountkind}"
+  subscription_id                           = "${var.subscription_id}" 
+  storage_account_contributor_principal_id  = "${var.storage_account_contributor_principal_id}"
+}
 
 # ########################################################################################################
 # # Create Data Factory

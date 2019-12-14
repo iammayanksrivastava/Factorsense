@@ -11,22 +11,48 @@
 ########################################################################################################
 # Identify the subnet in which the storage account has to be deployed
 ########################################################################################################
-data "azurerm_subnet" "subnet" {
-  name                  = "nnbewesteuaccsub"
-  virtual_network_name  = "NNANPSpoke-NNBE"
-  resource_group_name   = "AzureVnet"
-}
+# data "azurerm_subnet" "subnet" {
+#   name                  = "nnbewesteuaccsub"
+#   virtual_network_name  = "NNANPSpoke-NNBE"
+#   resource_group_name   = "AzureVnet"
+# }
 # ########################################################################################################
 # # Create Storage Account
 # ########################################################################################################
-# resource "azurerm_storage_account" "storage" {
-#   # depends_on                = ["null_resource.nnberesourcegroup"]
-#   name                      = "${var.name}storageaccount"
+resource "azurerm_storage_account" "storage" {
+  # depends_on                = ["null_resource.nnberesourcegroup"]
+  name                      = "${var.name}storageaccount"
+  resource_group_name       = "${var.name}rg"
+  location                  = "${var.location}"
+  account_tier              = "${var.account_tier}"
+  account_replication_type  = "${var.replication_type}"
+  account_kind              = "${var.accountkind}"
+
+  #  network_rules {
+  #   default_action             = "Deny"
+  #   virtual_network_subnet_ids = ["${data.azurerm_subnet.subnet.id}"]
+  # }
+
+
+  tags = {
+    environment     = "${var.environment}"
+    costcenter      = "${var.costcenter}"
+    ApplicationName = "${var.ApplicationName}"
+  }
+}
+
+
+########################################################################################################
+# Create ADLS Storage Account 
+########################################################################################################
+# resource "azurerm_storage_account" "adls" {
+#   name                      = "${var.name}adls"
 #   resource_group_name       = "${var.name}rg"
 #   location                  = "${var.location}"
 #   account_tier              = "${var.account_tier}"
 #   account_replication_type  = "${var.replication_type}"
 #   account_kind              = "${var.accountkind}"
+#   is_hns_enabled            =  true
 
 #    network_rules {
 #     default_action             = "Deny"
@@ -40,32 +66,6 @@ data "azurerm_subnet" "subnet" {
 #     ApplicationName = "${var.ApplicationName}"
 #   }
 # }
-
-
-########################################################################################################
-# Create ADLS Storage Account 
-########################################################################################################
-resource "azurerm_storage_account" "adls" {
-  name                      = "${var.name}adls"
-  resource_group_name       = "${var.name}rg"
-  location                  = "${var.location}"
-  account_tier              = "${var.account_tier}"
-  account_replication_type  = "${var.replication_type}"
-  account_kind              = "${var.accountkind}"
-  is_hns_enabled            =  true
-
-   network_rules {
-    default_action             = "Deny"
-    virtual_network_subnet_ids = ["${data.azurerm_subnet.subnet.id}"]
-  }
-
-
-  tags = {
-    environment     = "${var.environment}"
-    costcenter      = "${var.costcenter}"
-    ApplicationName = "${var.ApplicationName}"
-  }
-}
 
 
 # ########################################################################################################
