@@ -11,7 +11,7 @@ provider "azurerm" {
 #######################################################################################################
 
 module "resourcegroup" {
-  source          = "../../terraform_iac_modules/azure_resource_group"
+  source          = "../terraform_iac_modules/azure_resource_group"
   name            = "${var.name}"
   location        = "${var.location}"
   environment     = "${var.environment}"
