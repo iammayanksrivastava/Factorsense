@@ -37,19 +37,19 @@ module "resourcegroup" {
 # Create Azure Key Vault
 ########################################################################################################
 
-module "keyvault" {
-  source                            = "../../terraform_iac_modules/azure_key_vault"
-  name                              = "${var.name}"
-  location                          = "${var.location}"
-  environment                       = "${var.environment}"
-  costcenter                        = "${var.costcenter}"
-  ApplicationName                   = "${var.ApplicationName}"
-  tenant_id                         = "${var.tenant_id}"
-  sku_name                          = "${var.sku_name}"
-  rgmonitor                         = "${var.rgmonitor}"
-  logworkspace                      = "${var.logworkspace}"
-  storagemonitor                    = "${var.storagemonitor}"
-  }
+# module "keyvault" {
+#   source                            = "../../terraform_iac_modules/azure_key_vault"
+#   name                              = "${var.name}"
+#   location                          = "${var.location}"
+#   environment                       = "${var.environment}"
+#   costcenter                        = "${var.costcenter}"
+#   ApplicationName                   = "${var.ApplicationName}"
+#   tenant_id                         = "${var.tenant_id}"
+#   sku_name                          = "${var.sku_name}"
+#   rgmonitor                         = "${var.rgmonitor}"
+#   logworkspace                      = "${var.logworkspace}"
+#   storagemonitor                    = "${var.storagemonitor}"
+#   }
 
 ########################################################################################################
 # Create Storage Account
