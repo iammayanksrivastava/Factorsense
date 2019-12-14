@@ -56,7 +56,7 @@ module "resourcegroup" {
 #######################################################################################################
 
 module "storageaccount" {
-  source                                    = "../../terraform_iac_modules/azure_storage_account"
+  source                                    = "../terraform_iac_modules/azure_storage_account"
   name                                      = "${var.name}"
   location                                  = "${var.location}"
   environment                               = "${var.environment}"
