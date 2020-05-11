@@ -1,5 +1,12 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Purpose of writing this code was to understand the Lifecycle methods in react. A Clock component was added to the original code to display a clock which gets updated every second. 
+
+
+![Render Clock Demo](demo/demo.gif)
+
+
+
 ## Available Scripts
 
 In the project directory, you can run:
